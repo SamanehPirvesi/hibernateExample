@@ -2,9 +2,9 @@ package com.example.dao;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import com.example.model.User;
 
@@ -111,7 +111,7 @@ public class UserDao {
 		return res;
 
 	}
-	@SuppressWarnings("deprecation")
+//	@SuppressWarnings("deprecation")
 	public boolean updateUserById(long id , String name) {
 		boolean res = false;
 		Session session = HibernateUtil.openSession();
@@ -120,9 +120,9 @@ public class UserDao {
 			tx = session.getTransaction();
 			tx.begin();
 
-			Query query=session.createQuery("UPDATE User SET name=:firstname WHERE user_id=:idnumber");
-			query.setString("firstname",name);
-			query.setLong("idnumber", id);
+			Query<User> query=session.createQuery("UPDATE User SET name=:firstname WHERE user_id=:idnumber",User.class);
+			query.setParameter("firstname",name);
+			query.setParameter("idnumber", id);
 		query.executeUpdate();
 			res = true;
 		} catch (Exception ex) {
